@@ -1,0 +1,25 @@
+{
+  "name": "matheushack/ifood",
+  "description": "Comunicação webservice iFood",
+  "license": "MIT",
+  "authors": [{
+    "name": "Matheus Hack",
+    "email": "matheushackdiniz@hotmail.com"
+  }],
+  "require": {
+    "php": ">=5.6",
+    "vlucas/phpdotenv": "^3.5",
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "require-dev": {
+    "larapack/dd": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "MatheusHack\\IFood\\": "src/IFood/"
+    },
+    "files": [
+      "src/IFood/Config/app.php"
+    ]
+  }
+}
