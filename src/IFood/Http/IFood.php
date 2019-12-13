@@ -12,6 +12,6 @@ class IFood extends Authentication
 {
 	public function category()
 	{
-		return $this->execute('categories', OAUTH_HTTP_METHOD_POST, []);
+		return $this->execute('categories', 'POST', []);
 	}
 }

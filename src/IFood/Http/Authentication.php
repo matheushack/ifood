@@ -15,19 +15,22 @@ use MatheusHack\IFood\Entities\Response;
 class Authentication
 {
 	private $httpClient;
+	private $cache;
 
 	public function __construct()
 	{
+		$this->cache = new Cache();
 		$this->httpClient = new Client();
 	}
 
-	protected function execute($endpoint, $method = OAUTH_HTTP_METHOD_GET, $parameters)
+	protected function execute($endpoint, $method = 'GET', $parameters)
 	{
-		Cache::set('teste', 'matheus', 30);
-		dd(Cache::get('teste'));
-		$token = $this->authorize();
-
 		try {
+			$token = $this->authorize();
+
+			if(!$token)
+				throw new \Exception('Token invalid');
+
 			$response = $this->httpClient->request($method, $endpoint, [
 				'headers' => [],
 				'body' => json_encode($parameters)
@@ -49,30 +52,34 @@ class Authentication
 
 	protected function authorize()
 	{
-		try {
-			$token = Cache::get('token_authorize_ifood');
+		$token = $this->cache->get('token_authorize_ifood');
 
-			if($token)
-				return $token;
+		if($token)
+			return $token;
 
-			$response = $this->httpClient->post(getenv('URL_TOKEN'), [
-				'headers' => [
-					'Content-Type' => 'multipart/form-data'
-				],
-				'multipart' => [
-					'client_id' => getenv('CLIENT_ID'),
-					'client_secret' => getenv('CLIENT_SECRET'),
-					'grant_type' => 'password',
-					'username' => getenv('USERNAME'),
-					'password' => getenv('PASSWORD'),
-				]
-			]);
+		$tries = getenv('TOKEN_TRIES') ? getenv('TOKEN_TRIES') : 1;
 
-			dd($response->getBody());
-		}catch(RequestException $e){
-			dd($e->getMessage());
-		}catch(\Exception $e){
-			dd($e->getMessage());
+		for($t = 1; $t <= $tries; $t++) {
+			try {
+				$response = $this->httpClient->request('POST', getenv('URL_TOKEN'), [
+					'headers' => [
+						'Content-Type' => 'multipart/form-data'
+					],
+					'body' => json_encode([
+						'client_id' => getenv('CLIENT_ID'),
+						'client_secret' => getenv('CLIENT_SECRET'),
+						'grant_type' => 'password',
+						'username' => getenv('USERNAME'),
+						'password' => getenv('PASSWORD'),
+					])
+				]);
+
+				dd($response->getBody());
+			} catch (\Exception $e) {
+				continue;
+			}
 		}
+
+		return false;
 	}
 }

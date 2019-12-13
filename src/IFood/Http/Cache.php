@@ -15,46 +15,47 @@ namespace MatheusHack\IFood\Http;
  */
 class Cache
 {
-	/**
-	 * @param $key
-	 * @param string $value
-	 * @param int $time
-	 * @return bool
-	 */
-	public static function set($key, $value = '', $time = 60)
+	private $memcached;
+
+	public function __construct()
+	{
+		$this->memchaced = new \Memcached('ifood-project');
+
+		if (!count($this->memchaced->getServerList()))
+			$this->memchaced->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
+	}
+
+	public function set($key, $value = '', $time = 60)
 	{
 		try {
-			$memchace = (new \Memcache)->connect(getenv('MEMCACHE_HOST', getenv('MEMCACHE_PORT')));
-			return $memchace->set($key, $value, MEMCACHE_COMPRESSED, $time);
+			return $this->memchaced->add($key, $value, $time);
 		} catch (\Exception $e){
 			return false;
 		}
 	}
 
-	/**
-	 * @param $key
-	 * @param string $value
-	 * @return bool
-	 */
-	public static function rememberForever($key, $value = '')
+	public function rememberForever($key, $value = '')
 	{
 		try {
-			$memchace = (new \Memcache)->connect(getenv('MEMCACHE_HOST', getenv('MEMCACHE_PORT')));
-			return $memchace->set($key, $value, MEMCACHE_COMPRESSED, 0);
+			return $this->memchaced->add($key, $value, 0);
 		} catch (\Exception $e){
 			return false;
 		}
 	}
 
-	/**
-	 * @param $key
-	 * @return bool
-	 */
-	public static function get($key)
+	public function get($key)
 	{
 		try {
-			$memchace = (new \Memcache)->connect(getenv('MEMCACHE_HOST', getenv('MEMCACHE_PORT')));
-			return $memchace->get($key);
+			return $this->memchaced->get($key);
+		} catch (\Exception $e){
+			return false;
+		}
+	}
+
+	public function clear()
+	{
+		try {
+			return $this->memchaced->flush();
 		} catch (\Exception $e){
 			return false;
 		}
