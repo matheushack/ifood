@@ -10,4 +10,4 @@ require '../vendor/autoload.php';
 use MatheusHack\IFood\Menu;
 
 $menu = new Menu();
-dd($menu->category(['teste' => 123]));
+dd($menu->categories()->all());

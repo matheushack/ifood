@@ -31,10 +31,26 @@ class Authentication
 			if(!$token)
 				throw new \Exception('Token invalid');
 
-			$response = $this->httpClient->request($method, $endpoint, [
-				'headers' => [],
-				'body' => json_encode($parameters)
-			]);
+			switch ($method){
+				default:
+					$response = $this->httpClient->request('POST', $endpoint, [
+						'headers' => $this->makeHeaders(),
+					]);
+					break;
+				case 'POST':
+					$response = $this->httpClient->request('POST', $endpoint, [
+						'headers' => $this->makeHeaders(),
+						'body' => json_encode($parameters->toArray())
+					]);
+					break;
+				case 'PUT':
+					$response = $this->httpClient->request('PUT', $endpoint, [
+						'headers' => $this->makeHeaders(),
+						'body' => json_encode($parameters->toArray())
+					]);
+					break;
+			}
+
 
 			return (new Response)
 				->setSuccess(true)
@@ -81,5 +97,10 @@ class Authentication
 		}
 
 		return false;
+	}
+
+	private function makeHeaders()
+	{
+		return [];
 	}
 }

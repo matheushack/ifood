@@ -9,19 +9,64 @@
 namespace MatheusHack\IFood\Services;
 
 
+use MatheusHack\IFood\Constants\Availability;
+use MatheusHack\IFood\Factories\FactoryCategory;
 use MatheusHack\IFood\Http\IFood;
 
+/**
+ * Class ServiceCategory
+ * @package MatheusHack\IFood\Services
+ */
 class ServiceCategory
 {
+	/**
+	 * @var IFood
+	 */
 	private $iFood;
 
+	/**
+	 * ServiceCategory constructor.
+	 */
 	public function __construct()
 	{
 		$this->iFood = new IFood();
 	}
 
-	public function create(array $data)
+	/**
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function all()
 	{
-		return $this->iFood->category($data);
+		return $this->iFood->allCategory();
+	}
+
+	/**
+	 * @param array $data
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function store(array $data)
+	{
+		$request = (new FactoryCategory)->make($data);
+		return $this->iFood->createCategory($request);
+	}
+
+	/**
+	 * @param array $data
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function update(array $data)
+	{
+		$request = (new FactoryCategory)->make($data);
+		return $this->iFood->updateCategory($request);
+	}
+
+	/**
+	 * @param array $data
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function delete(array $data)
+	{
+		$request = (new FactoryCategory)->make($data, true);
+		return $this->iFood->deleteCategory($request);
 	}
 }

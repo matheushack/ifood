@@ -8,39 +8,49 @@
 
 namespace MatheusHack\IFood;
 
-
-use MatheusHack\IFood\Services\ServiceCategory;
+use MatheusHack\IFood\Entities\Categories;
+use MatheusHack\IFood\Entities\Complements;
+use MatheusHack\IFood\Entities\Items;
 
 class Menu
 {
-	public function category(array $data)
+	public function categories()
 	{
-		$service = new ServiceCategory();
-		return $service->create($data);
+		return new Categories();
 	}
 
-	public function item()
+	public function items()
 	{
-		return '/skus (POST)';
+		return new Items();
 	}
 
-	public function complement()
+	public function complements()
 	{
-		return '/option-groups (POST)';
+		return new Complements();
 	}
 
-	public function addItemInCategory()
-	{
-		return '/categories/{external_code}/skus:link (POST)';
-	}
-
-	public function addComplementInItem()
-	{
-		return '/skus/{external_code}/option-groups:link (POST)';
-	}
-
-	public function addItemInComplement()
-	{
-		return '/option-groups/{external_code}/skus:link (POST)';
-	}
+//	public function item()
+//	{
+//		return '/skus (POST)';
+//	}
+//
+//	public function complement()
+//	{
+//		return '/option-groups (POST)';
+//	}
+//
+//	public function addItemInCategory()
+//	{
+//		return '/categories/{external_code}/skus:link (POST)';
+//	}
+//
+//	public function addComplementInItem()
+//	{
+//		return '/skus/{external_code}/option-groups:link (POST)';
+//	}
+//
+//	public function addItemInComplement()
+//	{
+//		return '/option-groups/{external_code}/skus:link (POST)';
+//	}
 }

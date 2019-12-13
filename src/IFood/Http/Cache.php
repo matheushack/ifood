@@ -15,8 +15,14 @@ namespace MatheusHack\IFood\Http;
  */
 class Cache
 {
+	/**
+	 * @var
+	 */
 	private $memcached;
 
+	/**
+	 * Cache constructor.
+	 */
 	public function __construct()
 	{
 		$this->memchaced = new \Memcached('ifood-project');
@@ -25,6 +31,12 @@ class Cache
 			$this->memchaced->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
 	}
 
+	/**
+	 * @param $key
+	 * @param string $value
+	 * @param int $time
+	 * @return bool
+	 */
 	public function set($key, $value = '', $time = 60)
 	{
 		try {
@@ -34,6 +46,11 @@ class Cache
 		}
 	}
 
+	/**
+	 * @param $key
+	 * @param string $value
+	 * @return bool
+	 */
 	public function rememberForever($key, $value = '')
 	{
 		try {
@@ -43,6 +60,10 @@ class Cache
 		}
 	}
 
+	/**
+	 * @param $key
+	 * @return bool|mixed
+	 */
 	public function get($key)
 	{
 		try {
@@ -52,6 +73,9 @@ class Cache
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function clear()
 	{
 		try {
