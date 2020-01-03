@@ -8,8 +8,6 @@
 
 namespace MatheusHack\IFood\Services;
 
-
-use MatheusHack\IFood\Constants\Availability;
 use MatheusHack\IFood\Factories\FactoryCategory;
 use MatheusHack\IFood\Http\IFood;
 
@@ -56,7 +54,7 @@ class ServiceCategory
 	 */
 	public function update(array $data)
 	{
-		$request = (new FactoryCategory)->make($data);
+		$request = (new FactoryCategory)->makeUpdate($data);
 		return $this->iFood->updateCategory($request);
 	}
 
@@ -66,7 +64,7 @@ class ServiceCategory
 	 */
 	public function delete(array $data)
 	{
-		$request = (new FactoryCategory)->make($data, true);
+		$request = (new FactoryCategory)->makeDelete($data);
 		return $this->iFood->deleteCategory($request);
 	}
 }

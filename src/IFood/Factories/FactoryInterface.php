@@ -17,8 +17,11 @@ interface FactoryInterface
 {
 	/**
 	 * @param array $data
-	 * @param bool $delete
 	 * @return mixed
 	 */
-	public function make(array $data, $delete = false);
+	public function make(array $data);
+
+	public function makeUpdate(array $data);
+
+	public function makeDelete(array $data);
 }

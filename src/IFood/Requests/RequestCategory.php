@@ -9,12 +9,17 @@
 namespace MatheusHack\IFood\Requests;
 
 
+use MatheusHack\IFood\Constants\Availability;
+use MatheusHack\IFood\Traits\ConvertTrait;
+
 /**
  * Class RequestCategory
  * @package MatheusHack\IFood\Requests
  */
 class RequestCategory
 {
+	use ConvertTrait;
+
 	/**
 	 * @var
 	 */
@@ -119,6 +124,24 @@ class RequestCategory
 	public function setOrder($order)
 	{
 		$this->order = $order;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTemplate()
+	{
+		return $this->template;
+	}
+
+	/**
+	 * @param string $template
+	 * @return RequestCategory
+	 */
+	public function setTemplate($template)
+	{
+		$this->template = $template;
 		return $this;
 	}
 

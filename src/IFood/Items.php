@@ -3,13 +3,13 @@
  * Created by PhpStorm.
  * User: mhssilva
  * Date: 13/12/19
- * Time: 16:57
+ * Time: 16:56
  */
 
-namespace MatheusHack\IFood\Entities;
+namespace MatheusHack\IFood;
 
 
-class Complements
+class Items
 {
 
 }

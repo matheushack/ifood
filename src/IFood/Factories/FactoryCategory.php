@@ -20,36 +20,59 @@ class FactoryCategory implements FactoryInterface
 {
 	/**
 	 * @param array $data
-	 * @param bool $delete
-	 * @return RequestCategory
+	 * @return array|mixed
 	 */
-	public function make(array $data, $delete = false)
+	public function make(array $data)
 	{
-		return (new RequestCategory)
-			->setMerchantId(getenv('MERCHANT_ID'))
-			->setAvailability($this->makeAvailability($data, $delete))
-			->setName(!empty($data['categoria']) ? $data['categoria'] : 'Categoria Indefinida')
-			->setOrder(!empty($data['ordem']) ? (int) $data['ordem'] : 0)
-			->setExternalCode(!empty($data['pdv_pedido']) ? $data['pdv_pedido'] : '')
-			->setDescription(!empty($data['descricao']) ? $data['descricao'] : '');
+		$response = (new RequestCategory)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'))
+			->setAvailability((string) $data['status'])
+			->setExternalCode((string) $data['externalCode'])
+			->setName((string) $data['name'])
+			->setOrder((int) $data['order']);
+
+		return $response->toArray();
 	}
 
 	/**
 	 * @param array $data
-	 * @param $delete
-	 * @return mixed|string
+	 * @return array
 	 */
-	private function makeAvailability(array $data, $delete)
+	public function makeUpdate(array $data)
 	{
-		if($delete)
-			return Availability::DELETE;
+		$response = (new RequestCategory)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'))
+			->setExternalCode((string) $data['externalCode'])
+			->setTemplate(null)
+			->setAvailability(null);
 
-		if(empty($data['status']))
-			return Availability::INACTIVE;
+		if(!empty($data['status']))
+			$response->setAvailability((string) $data['status']);
 
-		if(!in_array($data['status'], [Availability::ACTIVE, Availability::INACTIVE]))
-			return Availability::INACTIVE;
+		if(!empty($data['name']))
+			$response->setName((string) $data['name']);
 
-		return $data['status'];
+		if(!empty($data['order']))
+			$response->setOrder((int) $data['order']);
+
+		if(!empty($data['description']))
+			$response->setDescription((string) $data['description']);
+
+		return $response->toArray();
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function makeDelete(array $data)
+	{
+		return (new RequestCategory)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'))
+			->setExternalCode((string) $data['externalCode'])
+			->setAvailability(Availability::DELETE)
+			->setName((string) $data['name'])
+			->setTemplate(null)
+			->toArray();
 	}
 }

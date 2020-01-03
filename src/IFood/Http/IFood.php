@@ -8,46 +8,44 @@
 
 namespace MatheusHack\IFood\Http;
 
-use MatheusHack\IFood\Requests\RequestCategory;
-
 /**
  * Class IFood
  * @package MatheusHack\IFood\Http
  */
 class IFood extends Authentication
 {
+	public function changeStatusRestaurant($status, $reason = null)
+	{
+		$data = [
+			'status' => $status
+		];
+
+		if(!empty($reason))
+			$data['reason'] = $reason;
+
+		return $this->execute(sprintf('%s/merchants/%s/statuses', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID')), 'PUT', $data);
+	}
+
 	/**
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
 	public function allCategory()
 	{
-		return $this->execute(sprintf('%s/merchants/%s/menus/categories', getenv('VERSION'), getenv('MERCHANT_ID')), 'GET');
+		return $this->execute(sprintf('%s/merchants/%s/menus/categories', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID')), 'GET');
 	}
 
-	/**
-	 * @param RequestCategory $category
-	 * @return \MatheusHack\IFood\Entities\Response
-	 */
-	public function createCategory(RequestCategory $category)
+	public function createCategory($category)
 	{
-		return $this->execute(sprintf('%s/categories', getenv('VERSION')), 'POST', $category);
+		return $this->execute(sprintf('%s/categories', getenv('IFOOD_VERSION')), 'POST', $category);
 	}
 
-	/**
-	 * @param RequestCategory $category
-	 * @return \MatheusHack\IFood\Entities\Response
-	 */
-	public function updateCategory(RequestCategory $category)
+	public function updateCategory($category)
 	{
-		return $this->execute(sprintf('%s/categories', getenv('VERSION')), 'PUT', $category);
+		return $this->execute(sprintf('%s/categories', getenv('IFOOD_VERSION')), 'PUT', $category);
 	}
 
-	/**
-	 * @param RequestCategory $category
-	 * @return \MatheusHack\IFood\Entities\Response
-	 */
-	public function deleteCategory(RequestCategory $category)
+	public function deleteCategory($category)
 	{
-		return $this->execute(sprintf('%s/categories', getenv('VERSION')), 'POST', $category);
+		return $this->execute(sprintf('%s/categories', getenv('IFOOD_VERSION')), 'PUT', $category);
 	}
 }
