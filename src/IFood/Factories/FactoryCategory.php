@@ -16,7 +16,7 @@ use MatheusHack\IFood\Requests\RequestCategory;
  * Class FactoryCategory
  * @package MatheusHack\IFood\Factories
  */
-class FactoryCategory implements FactoryInterface
+class FactoryCategory
 {
 	/**
 	 * @param array $data

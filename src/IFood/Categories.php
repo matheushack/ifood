@@ -44,6 +44,21 @@ class Categories
 	}
 
 	/**
+	 * @param string $categoryId
+	 * @return Response
+	 */
+	public function items($categoryId = '')
+	{
+		$validator = new Validator(['categoryId' => $categoryId]);
+		$validator->rule('required', ['categoryId']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->items($categoryId);
+	}
+
+	/**
 	 * @param array $data
 	 * @return Response
 	 */

@@ -12,17 +12,36 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use MatheusHack\IFood\Entities\Response;
 
+/**
+ * Class Authentication
+ * @package MatheusHack\IFood\Http
+ */
 class Authentication
 {
+	/**
+	 * @var Client
+	 */
 	private $httpClient;
+	/**
+	 * @var Cache
+	 */
 	private $cache;
 
+	/**
+	 * Authentication constructor.
+	 */
 	public function __construct()
 	{
 		$this->cache = new Cache();
 		$this->httpClient = new Client();
 	}
 
+	/**
+	 * @param $endpoint
+	 * @param string $method
+	 * @param array $parameters
+	 * @return Response
+	 */
 	protected function execute($endpoint, $method = 'GET', $parameters = [])
 	{
 		try {
@@ -83,7 +102,7 @@ class Authentication
 
 			if(empty($iFoodResponse))
 				return (new Response)
-					->setMessage('Information was successfully entered')
+					->setMessage('Information was successfully')
 					->setSuccess(true);
 
 			return (new Response)
@@ -100,6 +119,9 @@ class Authentication
 		}
 	}
 
+	/**
+	 * @return bool|mixed
+	 */
 	protected function authorize()
 	{
 		$token = $this->cache->get('token_authorize_ifood');
@@ -139,6 +161,10 @@ class Authentication
 		return false;
 	}
 
+	/**
+	 * @param $token
+	 * @return array
+	 */
 	private function makeHeaders($token)
 	{
 		return [

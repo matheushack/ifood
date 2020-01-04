@@ -39,6 +39,15 @@ class ServiceCategory
 	}
 
 	/**
+	 * @param $categoryId
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function items($categoryId)
+	{
+		return $this->iFood->itemsByCategory($categoryId);
+	}
+
+	/**
 	 * @param array $data
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */

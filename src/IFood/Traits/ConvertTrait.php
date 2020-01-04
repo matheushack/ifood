@@ -20,6 +20,8 @@ trait ConvertTrait
     public function toArray()
     {
         $array = (array) get_object_vars($this);
-        return array_filter($array);
+        return array_filter($array, function($item){
+			return $item !== "" && $item !== 0 && $item !== null;
+		});
     }
 }
