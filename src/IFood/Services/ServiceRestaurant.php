@@ -9,10 +9,14 @@
 namespace MatheusHack\IFood\Services;
 
 
-use MatheusHack\IFood\Constants\Availability;
-use MatheusHack\IFood\Entities\Response;
 use MatheusHack\IFood\Http\IFood;
+use MatheusHack\IFood\Entities\Response;
+use MatheusHack\IFood\Constants\Availability;
 
+/**
+ * Class ServiceRestaurant
+ * @package MatheusHack\IFood\Services
+ */
 class ServiceRestaurant
 {
 	/**
@@ -28,6 +32,9 @@ class ServiceRestaurant
 		$this->iFood = new IFood();
 	}
 
+	/**
+	 * @return Response
+	 */
 	public function available()
 	{
 		try {
@@ -42,6 +49,10 @@ class ServiceRestaurant
 		}
 	}
 
+	/**
+	 * @param $reason
+	 * @return Response
+	 */
 	public function unavailable($reason)
 	{
 		try {

@@ -9,8 +9,9 @@
 namespace MatheusHack\IFood\Services;
 
 
-use MatheusHack\IFood\Factories\FactoryItem;
 use MatheusHack\IFood\Http\IFood;
+use MatheusHack\IFood\Entities\Response;
+use MatheusHack\IFood\Factories\FactoryItem;
 
 /**
  * Class ServiceItem
@@ -37,7 +38,13 @@ class ServiceItem
 	 */
 	public function complements($itemId)
 	{
-		return $this->iFood->complementsByItem($itemId);
+		try {
+			return $this->iFood->complementsByItem($itemId);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 
 	/**
@@ -46,7 +53,45 @@ class ServiceItem
 	 */
 	public function store(array $data)
 	{
-		$request = (new FactoryItem)->make($data);
-		return $this->iFood->createItem($request);
+		try {
+			$request = (new FactoryItem)->make($data);
+			return $this->iFood->createItem($request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
+	public function joinCategory(array $data)
+	{
+		try {
+			$request = (new FactoryItem)->makeJoinCategory($data);
+			return $this->iFood->joinCategory($data['externalCodeCategory'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
+	public function joinGroup(array $data)
+	{
+		try {
+			$request = (new FactoryItem)->makeJoinGroup($data);
+			return $this->iFood->joinGroup($data['externalCodeGroup'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 }

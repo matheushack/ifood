@@ -9,10 +9,10 @@
 namespace MatheusHack\IFood;
 
 
+use Valitron\Validator;
+use MatheusHack\IFood\Services\ServiceItem;
 use MatheusHack\IFood\Constants\Availability;
 use MatheusHack\IFood\Entities\ValidateResponse;
-use MatheusHack\IFood\Services\ServiceItem;
-use Valitron\Validator;
 
 /**
  * Class Items
@@ -48,7 +48,6 @@ class Items
 		return $this->service->complements($itemId);
 	}
 
-
 	/**
 	 * @param array $data
 	 * @return Entities\Response
@@ -64,5 +63,37 @@ class Items
 			return (new ValidateResponse)->error($validator);
 
 		return $this->service->store($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
+	public function joinCategory($data = [])
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCode', 'externalCodeCategory', 'order']);
+		$validator->rule('integer', ['order']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->joinCategory($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
+	public function joinGroup($data = [])
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCodeGroup', 'externalCodeItem', 'sequence']);
+		$validator->rule('integer', ['sequence']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->joinGroup($data);
 	}
 }

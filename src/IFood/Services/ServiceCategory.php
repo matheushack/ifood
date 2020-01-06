@@ -8,8 +8,9 @@
 
 namespace MatheusHack\IFood\Services;
 
-use MatheusHack\IFood\Factories\FactoryCategory;
 use MatheusHack\IFood\Http\IFood;
+use MatheusHack\IFood\Entities\Response;
+use MatheusHack\IFood\Factories\FactoryCategory;
 
 /**
  * Class ServiceCategory
@@ -31,49 +32,79 @@ class ServiceCategory
 	}
 
 	/**
-	 * @return \MatheusHack\IFood\Entities\Response
+	 * @return Response
 	 */
 	public function all()
 	{
-		return $this->iFood->allCategory();
+		try {
+			return $this->iFood->allCategory();
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 
 	/**
 	 * @param $categoryId
-	 * @return \MatheusHack\IFood\Entities\Response
+	 * @return Response
 	 */
 	public function items($categoryId)
 	{
-		return $this->iFood->itemsByCategory($categoryId);
+		try {
+			return $this->iFood->itemsByCategory($categoryId);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 
 	/**
 	 * @param array $data
-	 * @return \MatheusHack\IFood\Entities\Response
+	 * @return Response
 	 */
 	public function store(array $data)
 	{
-		$request = (new FactoryCategory)->make($data);
-		return $this->iFood->createCategory($request);
+		try {
+			$request = (new FactoryCategory)->make($data);
+			return $this->iFood->createCategory($request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 
 	/**
 	 * @param array $data
-	 * @return \MatheusHack\IFood\Entities\Response
+	 * @return Response
 	 */
 	public function update(array $data)
 	{
-		$request = (new FactoryCategory)->makeUpdate($data);
-		return $this->iFood->updateCategory($request);
+		try {
+			$request = (new FactoryCategory)->makeUpdate($data);
+			return $this->iFood->updateCategory($request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 
 	/**
 	 * @param array $data
-	 * @return \MatheusHack\IFood\Entities\Response
+	 * @return Response
 	 */
 	public function delete(array $data)
 	{
-		$request = (new FactoryCategory)->makeDelete($data);
-		return $this->iFood->deleteCategory($request);
+		try {
+			$request = (new FactoryCategory)->makeDelete($data);
+			return $this->iFood->deleteCategory($request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
 	}
 }

@@ -9,8 +9,8 @@
 namespace MatheusHack\IFood\Http;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use MatheusHack\IFood\Entities\Response;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class Authentication
@@ -40,9 +40,10 @@ class Authentication
 	 * @param $endpoint
 	 * @param string $method
 	 * @param array $parameters
+	 * @param bool $isMultipart
 	 * @return Response
 	 */
-	protected function execute($endpoint, $method = 'GET', $parameters = [])
+	protected function execute($endpoint, $method = 'GET', $parameters = [], $isMultipart = false)
 	{
 		try {
 			$token = $this->authorize();
@@ -50,25 +51,20 @@ class Authentication
 			if(!$token)
 				throw new \Exception('Token invalid');
 
+			dd($token);
+
 			$endpoint = sprintf("%s%s", getenv('IFOOD_URL'), $endpoint);
+			$content = $this->makeContent($token, $parameters, $isMultipart);
 
 			switch ($method){
 				default:
-					$response = $this->httpClient->request('GET', $endpoint, [
-						'headers' => $this->makeHeaders($token),
-					]);
+					$response = $this->httpClient->request('GET', $endpoint, $content);
 					break;
 				case 'POST':
-					$response = $this->httpClient->request('POST', $endpoint, [
-						'headers' => $this->makeHeaders($token),
-						'body' => json_encode($parameters)
-					]);
+					$response = $this->httpClient->request('POST', $endpoint, $content);
 					break;
 				case 'PUT':
-					$response = $this->httpClient->request('PUT', $endpoint, [
-						'headers' => $this->makeHeaders($token),
-						'body' => json_encode($parameters)
-					]);
+					$response = $this->httpClient->request('PUT', $endpoint, $content);
 					break;
 			}
 
@@ -163,13 +159,29 @@ class Authentication
 
 	/**
 	 * @param $token
+	 * @param $parameters
+	 * @param $isMultipart
 	 * @return array
 	 */
-	private function makeHeaders($token)
+	private function makeContent($token, $parameters, $isMultipart)
 	{
+		if($isMultipart) {
+			return [
+				"headers" => [
+					'Authorization' => sprintf("Bearer %s", $token)
+				],
+				'multipart' => [$parameters]
+			];
+		}
+
 		return [
-			'Content-Type' => 'application/json',
-			'Authorization' => sprintf("Bearer %s", $token)
+			"headers" => [
+				'Content-Type' => 'application/json',
+				'Authorization' => sprintf("Bearer %s", $token)
+			],
+			'body' => json_encode($parameters)
 		];
+
+
 	}
 }

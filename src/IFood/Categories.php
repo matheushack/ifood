@@ -9,12 +9,11 @@
 namespace MatheusHack\IFood;
 
 
+use Valitron\Validator;
 use MatheusHack\IFood\Constants\Availability;
-use MatheusHack\IFood\Entities\Response;
+use MatheusHack\IFood\Services\ServiceCategory;
 use MatheusHack\IFood\Entities\ValidateResponse;
 use MatheusHack\IFood\Exceptions\ValidateException;
-use MatheusHack\IFood\Services\ServiceCategory;
-use Valitron\Validator;
 
 /**
  * Class Categories
@@ -36,7 +35,7 @@ class Categories
 	}
 
 	/**
-	 * @return Response
+	 * @return Entities\Response
 	 */
 	public function all()
 	{
@@ -45,7 +44,7 @@ class Categories
 
 	/**
 	 * @param string $categoryId
-	 * @return Response
+	 * @return Entities\Response
 	 */
 	public function items($categoryId = '')
 	{
@@ -60,7 +59,7 @@ class Categories
 
 	/**
 	 * @param array $data
-	 * @return Response
+	 * @return Entities\Response
 	 */
 	public function create($data = [])
 	{
@@ -77,7 +76,7 @@ class Categories
 
 	/**
 	 * @param array $data
-	 * @return Response
+	 * @return Entities\Response
 	 */
 	public function update(array $data)
 	{
@@ -93,7 +92,7 @@ class Categories
 
 	/**
 	 * @param array $data
-	 * @return Response
+	 * @return Entities\Response
 	 */
 	public function delete(array $data)
 	{

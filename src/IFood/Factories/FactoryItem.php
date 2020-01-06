@@ -8,10 +8,11 @@
 
 namespace MatheusHack\IFood\Factories;
 
-
 use MatheusHack\IFood\Requests\RequestItem;
 use MatheusHack\IFood\Requests\RequestPrice;
 use MatheusHack\IFood\Requests\RequestSchedule;
+use MatheusHack\IFood\Requests\RequestJoinGroup;
+use MatheusHack\IFood\Requests\RequestJoinCategory;
 
 /**
  * Class FactoryItem
@@ -39,7 +40,37 @@ class FactoryItem
 		if(!empty($data['schedules']))
 			$response->setSchedules($this->makeSchedules($data['schedules']));
 
-		return ['sku' => json_encode($response->toArray())];
+		return [
+			'name'     => 'sku',
+			'contents' => (string) json_encode($response->toArray()),
+			'headers'  => [ 'Content-Type' => 'application/json']
+		];
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function makeJoinCategory(array $data)
+	{
+		return (new RequestJoinCategory)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'))
+			->setExternalCode((string) $data['externalCode'])
+			->setOrder((int) $data['order'])
+			->toArray();
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function makeJoinGroup(array $data)
+	{
+		return (new RequestJoinGroup)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'))
+			->setExternalCode((string) $data['externalCodeItem'])
+			->setSequence((int) $data['sequence'])
+			->toArray();
 	}
 
 	/**

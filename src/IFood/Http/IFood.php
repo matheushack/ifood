@@ -40,12 +40,48 @@ class IFood extends Authentication
 	}
 
 	/**
+	 * @param $categoryId
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function itemsByCategory($categoryId)
+	{
+		return $this->execute(sprintf('%s/merchants/%s/menus/categories/%s', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID'), $categoryId), 'GET');
+	}
+
+	/**
+	 * @param $itemId
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function complementsByItem($itemId)
+	{
+		return $this->execute(sprintf('%s/merchants/%s/skus/%s/option_groups', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID'), $itemId), 'GET');
+	}
+
+	/**
 	 * @param $category
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
 	public function createCategory($category)
 	{
 		return $this->execute(sprintf('%s/categories', getenv('IFOOD_VERSION')), 'POST', $category);
+	}
+
+	/**
+	 * @param $item
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function createItem($item)
+	{
+		return $this->execute(sprintf('%s/skus', getenv('IFOOD_VERSION')), 'POST', $item, true);
+	}
+
+	/**
+	 * @param $complement
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function createComplement($complement)
+	{
+		return $this->execute(sprintf('%s/option-groups', getenv('IFOOD_VERSION')), 'POST', $complement);
 	}
 
 	/**
@@ -67,29 +103,32 @@ class IFood extends Authentication
 	}
 
 	/**
-	 * @param $categoryId
+	 * @param $groupCode
+	 * @param $link
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
-	public function itemsByCategory($categoryId)
+	public function joinGroup($groupCode, $link)
 	{
-		return $this->execute(sprintf('%s/merchants/%s/menus/categories/%s', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID'), $categoryId), 'GET');
+		return $this->execute(sprintf('%s/option-groups/%s/skus:link', getenv('IFOOD_VERSION'), $groupCode), 'POST', $link);
 	}
 
 	/**
-	 * @param $item
+	 * @param $itemCode
+	 * @param $link
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
-	public function createItem($item)
+	public function joinItem($itemCode, $link)
 	{
-		return $this->execute(sprintf('%s/skus', getenv('IFOOD_VERSION')), 'POST', $item);
+		return $this->execute(sprintf('%s/skus/%s/option-groups:link', getenv('IFOOD_VERSION'), $itemCode), 'POST', $link);
 	}
 
 	/**
-	 * @param $itemId
+	 * @param $categoryCode
+	 * @param $link
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
-	public function complementsByItem($itemId)
+	public function joinCategory($categoryCode, $link)
 	{
-		return $this->execute(sprintf('%s/merchants/%s/skus/%s/option_groups', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID'), $itemId), 'GET');
+		return $this->execute(sprintf('%s/categories/%s/skus:link', getenv('IFOOD_VERSION'), $categoryCode), 'POST', $link);
 	}
 }
