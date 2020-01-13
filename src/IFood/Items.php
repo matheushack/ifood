@@ -69,6 +69,52 @@ class Items
 	 * @param array $data
 	 * @return Entities\Response
 	 */
+	public function update(array $data)
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCode']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->update($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
+	public function updatePrice(array $data)
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCode', 'amount']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->updatePrice($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
+	public function updateStatus(array $data)
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCode', 'status']);
+		$validator->rule('in', 'status', [Availability::ACTIVE, Availability::INACTIVE]);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->updateStatus($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
 	public function joinCategory($data = [])
 	{
 		$validator = new Validator($data);

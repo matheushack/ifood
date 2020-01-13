@@ -37,6 +37,26 @@ class FactoryGroupComplement
 		return $response->toArray();
 	}
 
+	public function makeUpdate(array $data)
+	{
+		$response = (new RequestComplement)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'));
+
+		if(!empty($data['name']))
+			$response->setName((string) $data['name']);
+
+		if(!empty($data['minQuantity']))
+			$response->setMinQuantity((int) $data['minQuantity']);
+
+		if(!empty($data['maxQuantity']))
+			$response->setMaxQuantity((int) $data['maxQuantity']);
+
+		if(!empty($data['sequence']))
+			$response->setSequence((int) $data['sequence']);
+
+		return $response->toArray();
+	}
+
 	/**
 	 * @param array $data
 	 * @return array

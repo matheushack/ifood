@@ -94,6 +94,47 @@ class IFood extends Authentication
 	}
 
 	/**
+	 * @param $itemCode
+	 * @param $item
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function updatePriceItem($itemCode, $item)
+	{
+		return $this->execute(sprintf('%s/skus/%s/prices', getenv('IFOOD_VERSION'), $itemCode), 'PATCH', $item);
+	}
+
+	/**
+	 * @param $itemCode
+	 * @param $item
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function updateItem($itemCode, $item)
+	{
+		return $this->execute(sprintf('%s/skus/%s', getenv('IFOOD_VERSION'), $itemCode), 'PATCH', $item, true);
+	}
+
+	/**
+	 * @param $itemCode
+	 * @param $item
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function updateStatusItem($itemCode, $item)
+	{
+		return $this->execute(sprintf('%s/merchants/%s/skus/%s', getenv('IFOOD_VERSION'), getenv('IFOOD_MERCHANT_ID'), $itemCode), 'PATCH', $item);
+	}
+
+
+	/**
+	 * @param $groupCode
+	 * @param $complement
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function updateComplement($groupCode, $complement)
+	{
+		return $this->execute(sprintf('%s/option-groups/%s', getenv('IFOOD_VERSION'), $groupCode), 'PUT', $complement);
+	}
+
+	/**
 	 * @param $category
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */

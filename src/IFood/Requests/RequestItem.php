@@ -27,7 +27,17 @@ class RequestItem
 	/**
 	 * @var
 	 */
+	private $merchantIds;
+
+	/**
+	 * @var
+	 */
 	private $availability;
+
+	/**
+	 * @var
+	 */
+	private $status;
 
 	/**
 	 * @var
@@ -60,6 +70,11 @@ class RequestItem
 	private $schedules;
 
 	/**
+	 * @var
+	 */
+	private $startDate;
+
+	/**
 	 * @return mixed
 	 */
 	public function getMerchantId()
@@ -80,6 +95,24 @@ class RequestItem
 	/**
 	 * @return mixed
 	 */
+	public function getMerchantIds()
+	{
+		return $this->merchantIds;
+	}
+
+	/**
+	 * @param mixed $merchantIds
+	 * @return RequestItem
+	 */
+	public function setMerchantIds($merchantIds)
+	{
+		$this->merchantIds = $merchantIds;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function getAvailability()
 	{
 		return $this->availability;
@@ -92,6 +125,24 @@ class RequestItem
 	public function setAvailability($availability)
 	{
 		$this->availability = $availability;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * @param mixed $status
+	 * @return RequestItem
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
 		return $this;
 	}
 
@@ -200,6 +251,24 @@ class RequestItem
 	public function setSchedules($schedules)
 	{
 		$this->schedules = $schedules;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getStartDate()
+	{
+		return $this->startDate;
+	}
+
+	/**
+	 * @param mixed $startDate
+	 * @return RequestItem
+	 */
+	public function setStartDate($startDate)
+	{
+		$this->startDate = $startDate;
 		return $this;
 	}
 }

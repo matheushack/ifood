@@ -51,6 +51,22 @@ class ServiceGroupComplement
 	 * @param array $data
 	 * @return Response
 	 */
+	public function update(array $data)
+	{
+		try {
+			$request = (new FactoryGroupComplement)->makeUpdate($data);
+			return $this->iFood->updateComplement($data['externalCode'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
 	public function joinItem(array $data)
 	{
 		try {

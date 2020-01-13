@@ -12,15 +12,29 @@ use Valitron\Validator;
 use MatheusHack\IFood\Entities\ValidateResponse;
 use MatheusHack\IFood\Services\ServiceGroupComplement;
 
+/**
+ * Class GroupComplements
+ * @package MatheusHack\IFood
+ */
 class GroupComplements
 {
+	/**
+	 * @var ServiceGroupComplement
+	 */
 	private $service;
 
+	/**
+	 * GroupComplements constructor.
+	 */
 	function __construct()
 	{
 		$this->service = new ServiceGroupComplement();
 	}
 
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
 	public function create($data = [])
 	{
 		$validator = new Validator($data);
@@ -33,6 +47,26 @@ class GroupComplements
 		return $this->service->store($data);
 	}
 
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
+	public function update(array $data)
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['externalCode']);
+		$validator->rule('integer', ['sequence', 'maxQuantity', 'minQuantity']);
+
+		if(!$validator->validate())
+			return (new ValidateResponse)->error($validator);
+
+		return $this->service->update($data);
+	}
+
+	/**
+	 * @param array $data
+	 * @return Entities\Response
+	 */
 	public function joinItem($data = [])
 	{
 		$validator = new Validator($data);

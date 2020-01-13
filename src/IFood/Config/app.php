@@ -9,5 +9,6 @@
 try {
 	$dotenv = Dotenv\Dotenv:: create($_SERVER['DOCUMENT_ROOT']);
 	$dotenv->load();
+	Valitron\Validator::lang(getenv('IFOOD_LANG'));
 }catch (Exception $e){
 }

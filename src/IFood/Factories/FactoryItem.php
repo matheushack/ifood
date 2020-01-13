@@ -8,6 +8,7 @@
 
 namespace MatheusHack\IFood\Factories;
 
+use JBZoo\Image\Image;
 use MatheusHack\IFood\Requests\RequestItem;
 use MatheusHack\IFood\Requests\RequestPrice;
 use MatheusHack\IFood\Requests\RequestSchedule;
@@ -45,6 +46,70 @@ class FactoryItem
 			'contents' => (string) json_encode($response->toArray()),
 			'headers'  => [ 'Content-Type' => 'application/json']
 		];
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 * @throws \JBZoo\Image\Exception
+	 * @throws \JBZoo\Utils\Exception
+	 */
+	public function makeUpdate(array $data)
+	{
+		$response = (new RequestItem)
+			->setMerchantId((string) getenv('IFOOD_MERCHANT_ID'));
+
+		if(!empty($data['name']))
+			$response->setName((string) $data['name']);
+
+		if(!empty($data['description']))
+			$response->setName((string) $data['description']);
+
+		if(!empty($data['price']))
+			$response->setPrice($this->makePrice($data['price']));
+
+		$return[] = [
+			'name'     => 'sku',
+			'contents' => (string) json_encode($response->toArray()),
+			'headers'  => [ 'Content-Type' => 'application/json']
+		];
+
+		if(!empty($data['image'])) {
+			$image = new Image($data['image']['tmp_name']);
+			$return[] = [
+				'name' => 'file',
+				'contents' => $image->getBase64('jpeg', 100, true),
+			];
+		}
+
+		return $return;
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function makePrices(array $data)
+	{
+		$response = (new RequestItem)
+			->setMerchantIds([(string) getenv('IFOOD_MERCHANT_ID')])
+			->setPrice((double) number_format($data['amount'], 2, '.', ''));
+
+		if(!empty($data['starDate']))
+			$response->setStartDate((string) $data['startDate']);
+
+		return $response->toArray();
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function makeUpdateStatus(array $data)
+	{
+		return (new RequestItem)
+			->setStatus((string) $data['status'])
+			->toArray();
 	}
 
 	/**

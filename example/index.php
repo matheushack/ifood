@@ -14,9 +14,9 @@ use MatheusHack\IFood\Constants\Availability;
 use MatheusHack\IFood\Constants\DaysOfWeek;
 use MatheusHack\IFood\GroupComplements;
 
-$categories = new Categories();
-$items = new Items();
-$groupComplement = new GroupComplements();
+//$categories = new Categories();
+//$items = new Items();
+//$groupComplement = new GroupComplements();
 
 $categoriaCode = "C100";
 $itemCode = "I100";
@@ -106,7 +106,7 @@ $groupCode = "G100";
 //	'externalCodeCategory' => $categoriaCode,
 //	'order' => 1
 //]));
-dd('CADASTROU TUDO');
+//dd('CADASTROU TUDO');
 
 switch ($_GET['a'])
 {
@@ -160,6 +160,34 @@ switch ($_GET['a'])
 //			'externalCodeItem' => 'ITE101',
 //			'sequence' => 1
 //		]));
+//		dd($iFood->updatePrice([
+//			'externalCode' => $itemCode,
+//			'amount' => 2.50
+//		]));
+		dd($iFood->updateStatus([
+			'externalCode' => $itemCode,
+			'status' => Availability::ACTIVE
+		]));
+		break;
+	case 'upload':
+		if(!empty($_FILES['file'])) {
+			$iFood = new Items();
+			dd($iFood->update([
+				'externalCode' => $itemCode,
+				'price' => [
+					'amount' => 4,
+					'isPromotional' => false
+				],
+				'image' => $_FILES['file']
+			]));
+		} else {
+			echo "<form action='example?a=upload' enctype='multipart/form-data' method='post'>
+					<input type='file' name='file'>
+					<input type='submit' value='Enviar'>
+				</form>";
+			exit;
+		}
+		break;
 	case 'complement':
 		$iFood = new GroupComplements();
 //		dd($iFood->create([
@@ -173,6 +201,12 @@ switch ($_GET['a'])
 //			'externalCodeItem' => 'ITE101',
 //			'sequence' => 1
 //		]));
-		break;
+//		dd($iFood->update([
+//			'externalCode' => $groupCode,
+//			'name' => 'Bebida Editado',
+//			'sequence' => 1,
+//			'maxQuantity' => 10,
+//			'minQuantity' => 1
+//		]));
 		break;
 }

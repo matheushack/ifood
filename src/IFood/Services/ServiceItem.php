@@ -67,6 +67,54 @@ class ServiceItem
 	 * @param array $data
 	 * @return Response
 	 */
+	public function update(array $data)
+	{
+		try {
+			$request = (new FactoryItem)->makeUpdate($data);
+			return $this->iFood->updateItem($data['externalCode'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
+	public function updatePrice(array $data)
+	{
+		try {
+			$request = (new FactoryItem)->makePrices($data);
+			return $this->iFood->updatePriceItem($data['externalCode'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
+	public function updateStatus(array $data)
+	{
+		try {
+			$request = (new FactoryItem)->makeUpdateStatus($data);
+			return $this->iFood->updateStatusItem($data['externalCode'], $request);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
 	public function joinCategory(array $data)
 	{
 		try {

@@ -51,8 +51,6 @@ class Authentication
 			if(!$token)
 				throw new \Exception('Token invalid');
 
-			dd($token);
-
 			$endpoint = sprintf("%s%s", getenv('IFOOD_URL'), $endpoint);
 			$content = $this->makeContent($token, $parameters, $isMultipart);
 
@@ -65,6 +63,9 @@ class Authentication
 					break;
 				case 'PUT':
 					$response = $this->httpClient->request('PUT', $endpoint, $content);
+					break;
+				case 'PATCH':
+					$response = $this->httpClient->request('PATCH', $endpoint, $content);
 					break;
 			}
 
@@ -170,7 +171,7 @@ class Authentication
 				"headers" => [
 					'Authorization' => sprintf("Bearer %s", $token)
 				],
-				'multipart' => [$parameters]
+				'multipart' => count($parameters) == count($parameters, COUNT_RECURSIVE) ? [$parameters] : $parameters
 			];
 		}
 
