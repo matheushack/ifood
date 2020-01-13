@@ -172,4 +172,30 @@ class IFood extends Authentication
 	{
 		return $this->execute(sprintf('%s/categories/%s/skus:link', getenv('IFOOD_VERSION'), $categoryCode), 'POST', $link);
 	}
+
+	/**
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function events()
+	{
+		return $this->execute(sprintf("%s/events:polling", getenv('IFOOD_VERSION')), "GET");
+	}
+
+	/**
+	 * @param $uuids
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function acknowledgment($uuids)
+	{
+		return $this->execute(sprintf("%s/events/acknowledgment", getenv('IFOOD_VERSION')), "POST", $uuids);
+	}
+
+	/**
+	 * @param $reference
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function detailOrder($reference)
+	{
+		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_ORDER_VERSION'), $reference), "GET");
+	}
 }

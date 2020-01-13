@@ -13,6 +13,7 @@ use MatheusHack\IFood\Items;
 use MatheusHack\IFood\Constants\Availability;
 use MatheusHack\IFood\Constants\DaysOfWeek;
 use MatheusHack\IFood\GroupComplements;
+use MatheusHack\IFood\Orders;
 
 //$categories = new Categories();
 //$items = new Items();
@@ -164,22 +165,22 @@ switch ($_GET['a'])
 //			'externalCode' => $itemCode,
 //			'amount' => 2.50
 //		]));
-		dd($iFood->updateStatus([
-			'externalCode' => $itemCode,
-			'status' => Availability::ACTIVE
-		]));
+//		dd($iFood->updateStatus([
+//			'externalCode' => $itemCode,
+//			'status' => Availability::ACTIVE
+//		]));
 		break;
 	case 'upload':
 		if(!empty($_FILES['file'])) {
 			$iFood = new Items();
-			dd($iFood->update([
-				'externalCode' => $itemCode,
-				'price' => [
-					'amount' => 4,
-					'isPromotional' => false
-				],
-				'image' => $_FILES['file']
-			]));
+			//dd($iFood->update([
+			//	'externalCode' => $itemCode,
+			//	'price' => [
+			//		'amount' => 4,
+			//		'isPromotional' => false
+			//	],
+			//	'image' => $_FILES['file']
+			//]));
 		} else {
 			echo "<form action='example?a=upload' enctype='multipart/form-data' method='post'>
 					<input type='file' name='file'>
@@ -208,5 +209,27 @@ switch ($_GET['a'])
 //			'maxQuantity' => 10,
 //			'minQuantity' => 1
 //		]));
+		break;
+	case 'order':
+		$iFood = new Orders();
+		$events = $iFood->events();
+
+		if(!empty($events->getData())) {
+			$orders = [];
+
+			foreach($events->getData() as $item) {
+				$orders[] = $item->id;
+
+				//if($item->code == \MatheusHack\IFood\Constants\OrderStatus::PLACED) {
+				//	dd($iFood->detail([
+				//		'reference' => $item->correlationId
+				//	]));
+				//}
+			}
+
+			dd($iFood->acknowledgment([
+				'orders' => $orders
+			]));
+		}
 		break;
 }
