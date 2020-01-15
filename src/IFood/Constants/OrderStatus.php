@@ -9,12 +9,16 @@
 namespace MatheusHack\IFood\Constants;
 
 
+use MatheusHack\IFood\Traits\ConstantsTrait;
+
 /**
  * Class OrderStatus
  * @package MatheusHack\IFood\Constants
  */
 class OrderStatus
 {
+	use ConstantsTrait;
+
 	/**
 	 *
 	 */
@@ -23,7 +27,7 @@ class OrderStatus
 	/**
 	 *
 	 */
-	const INTEGRATE = "INTEGRATED";
+	const INTEGRATED = "INTEGRATED";
 
 	/**
 	 *
@@ -51,6 +55,11 @@ class OrderStatus
 	const CONCLUDED = "CONCLUDED";
 
 	/**
+	 *
+	 */
+	const REJECTED = "REJECTED";
+
+	/**
 	 * @param $status
 	 * @return mixed|string
 	 */
@@ -58,12 +67,13 @@ class OrderStatus
 	{
 		$descriptions = [
 			self::PLACED => "Pedido colocado no sistema do IFood",
-			self::INTEGRATE => "Pedido recebido no sistema PDV",
+			self::INTEGRATED => "Pedido recebido no sistema PDV",
 			self::CONFIRMED => "Pedido confirmado",
 			self::CANCELLED => "Pedido cancelado",
+			self::REJECTED => "Pedido rejeitado",
 			self::DISPATCHED => "Pedido enviado para entrega",
 			self::DELIVERED => "Pedido entregue",
-			self::CONCLUDED => "Pedido concluído"
+			self::CONCLUDED => "Pedido concluído",
 		];
 
 		return in_array($status, $descriptions) ? $descriptions[$status] : "";

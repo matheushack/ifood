@@ -9,12 +9,16 @@
 namespace MatheusHack\IFood\Constants;
 
 
+use MatheusHack\IFood\Traits\ConstantsTrait;
+
 /**
  * Class DaysOfWeek
  * @package MatheusHack\IFood\Constants
  */
 class DaysOfWeek
 {
+	use ConstantsTrait;
+
 	/**
 	 *
 	 */

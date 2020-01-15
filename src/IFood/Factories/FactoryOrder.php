@@ -9,6 +9,7 @@
 namespace MatheusHack\IFood\Factories;
 
 
+use MatheusHack\IFood\Constants\OrderStatus;
 use MatheusHack\IFood\Requests\RequestOrder;
 
 /**
@@ -17,5 +18,26 @@ use MatheusHack\IFood\Requests\RequestOrder;
  */
 class FactoryOrder
 {
-
+	/**
+	 * @param $status
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function makeStatus($status)
+	{
+		switch ($status){
+			default:
+				throw new \Exception('Status not found');
+			case OrderStatus::INTEGRATED:
+				return "integration";
+			case OrderStatus::CONFIRMED:
+				return "confirmation";
+			case OrderStatus::DISPATCHED:
+				return "dispatch";
+			case OrderStatus::REJECTED:
+				return "rejection";
+			case OrderStatus::CANCELLED:
+				return "cancellationRequested";
+		}
+	}
 }

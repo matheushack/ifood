@@ -8,6 +8,7 @@
 
 namespace MatheusHack\IFood\Services;
 
+use MatheusHack\IFood\Constants\OrderStatus;
 use MatheusHack\IFood\Entities\Response;
 use MatheusHack\IFood\Factories\FactoryOrder;
 use MatheusHack\IFood\Http\IFood;
@@ -45,6 +46,10 @@ class ServiceOrder
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
 	public function acknowledgment(array $data)
 	{
 		try {
@@ -64,6 +69,31 @@ class ServiceOrder
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
+	public function updateStatus(array $data)
+	{
+		try {
+			$reference = $data['reference'];
+			$isCancelOrder = $data['status'] == OrderStatus::CANCELLED ? true : false;
+			$status = (new FactoryOrder)->makeStatus($data['status']);
+			unset($data['status']);
+			unset($data['reference']);
+
+			return $this->iFood->updateStatusOrder($reference, $status, $isCancelOrder, $data);
+		} catch (\Exception $e){
+			return (new Response)
+				->setSuccess(false)
+				->setMessage($e->getMessage());
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Response
+	 */
 	public function detail(array $data)
 	{
 		try {

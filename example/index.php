@@ -7,13 +7,15 @@
  */
 require '../vendor/autoload.php';
 
-use MatheusHack\IFood\Restaurant;
-use MatheusHack\IFood\Categories;
 use MatheusHack\IFood\Items;
-use MatheusHack\IFood\Constants\Availability;
-use MatheusHack\IFood\Constants\DaysOfWeek;
-use MatheusHack\IFood\GroupComplements;
 use MatheusHack\IFood\Orders;
+use MatheusHack\IFood\Categories;
+use MatheusHack\IFood\Restaurant;
+use MatheusHack\IFood\GroupComplements;
+use MatheusHack\IFood\Constants\DaysOfWeek;
+use MatheusHack\IFood\Constants\OrderStatus;
+use MatheusHack\IFood\Constants\Availability;
+use MatheusHack\IFood\Constants\CancellationCodes;
 
 //$categories = new Categories();
 //$items = new Items();
@@ -212,24 +214,34 @@ switch ($_GET['a'])
 		break;
 	case 'order':
 		$iFood = new Orders();
-		$events = $iFood->events();
+//		$events = $iFood->events();
+//
+//		if(!empty($events->getData())) {
+//			$orders = [];
+//
+//			foreach($events->getData() as $item) {
+//				$orders[] = $item->id;
+//
+//				//if($item->code == \MatheusHack\IFood\Constants\OrderStatus::PLACED) {
+//				//	dd($iFood->detail([
+//				//		'reference' => $item->correlationId
+//				//	]));
+//				//}
+//			}
+//
+//			dd($iFood->acknowledgment([
+//				'orders' => $orders
+//			]));
+//		}
+//		dd($iFood->detail([
+//			'reference' => "4060193689901044"
+//		]));
 
-		if(!empty($events->getData())) {
-			$orders = [];
-
-			foreach($events->getData() as $item) {
-				$orders[] = $item->id;
-
-				//if($item->code == \MatheusHack\IFood\Constants\OrderStatus::PLACED) {
-				//	dd($iFood->detail([
-				//		'reference' => $item->correlationId
-				//	]));
-				//}
-			}
-
-			dd($iFood->acknowledgment([
-				'orders' => $orders
-			]));
-		}
+		dd($iFood->updateStatus([
+			'status' => OrderStatus::CANCELLED,
+			'reference' => '4060193689901044',
+			'details' => 'Pedido cancelado teste',
+			'cancellationCode' => CancellationCodes::PRANK_CALL
+		]));
 		break;
 }

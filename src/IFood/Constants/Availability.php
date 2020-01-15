@@ -9,12 +9,16 @@
 namespace MatheusHack\IFood\Constants;
 
 
+use MatheusHack\IFood\Traits\ConstantsTrait;
+
 /**
  * Class Availability
  * @package MatheusHack\IFood\Constants
  */
 class Availability
 {
+	use ConstantsTrait;
+
 	/**
 	 *
 	 */

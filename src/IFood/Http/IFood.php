@@ -196,6 +196,24 @@ class IFood extends Authentication
 	 */
 	public function detailOrder($reference)
 	{
-		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_ORDER_VERSION'), $reference), "GET");
+		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_VERSION'), $reference), "GET");
 	}
+
+	/**
+	 * @param $reference
+	 * @param $status
+	 * @param bool $isCancel
+	 * @param array $data
+	 * @return \MatheusHack\IFood\Entities\Response
+	 */
+	public function updateStatusOrder($reference, $status, $isCancel = false, $data = [])
+	{
+		$version = getenv('IFOOD_VERSION');
+
+		if($isCancel)
+			$version = 'v3.0';
+
+		return $this->execute(sprintf("%s/orders/%s/statuses/%s", $version, $reference, $status), "POST", $data);
+	}
+
 }
