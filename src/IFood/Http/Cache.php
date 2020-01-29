@@ -26,7 +26,7 @@ class Cache
 	public function __construct()
 	{
 		$this->memcached = new \Memcache('ifood-project');
-		$this->memchaced->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
+		$this->memcached->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Cache
 	public function set($key, $value = '', $time = 60)
 	{
 		try {
-			return $this->memchaced->add($key, $value, $time);
+			return $this->memcached->add($key, $value, $time);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -52,7 +52,7 @@ class Cache
 	public function rememberForever($key, $value = '')
 	{
 		try {
-			return $this->memchaced->add($key, $value, 0);
+			return $this->memcached->add($key, $value, 0);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -65,7 +65,7 @@ class Cache
 	public function get($key)
 	{
 		try {
-			return $this->memchaced->get($key);
+			return $this->memcached->get($key);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -77,7 +77,7 @@ class Cache
 	public function clear()
 	{
 		try {
-			return $this->memchaced->flush();
+			return $this->memcached->flush();
 		} catch (\Exception $e){
 			return false;
 		}
