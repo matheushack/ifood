@@ -45,6 +45,9 @@ class FactoryGroupComplement
 		if(!empty($data['name']))
 			$response->setName((string) $data['name']);
 
+		if(!empty($data['status']))
+			$response->setAvailability((string) $data['status']);
+
 		if(!empty($data['minQuantity']))
 			$response->setMinQuantity((int) $data['minQuantity']);
 

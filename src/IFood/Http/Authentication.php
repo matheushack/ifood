@@ -171,7 +171,7 @@ class Authentication
 				"headers" => [
 					'Authorization' => sprintf("Bearer %s", $token)
 				],
-				'multipart' => count($parameters) == count($parameters, COUNT_RECURSIVE) ? [$parameters] : $parameters
+				'multipart' => $this->hasStringKeys($parameters) ? [$parameters] : $parameters
 			];
 		}
 
@@ -182,7 +182,14 @@ class Authentication
 			],
 			'body' => json_encode($parameters)
 		];
+	}
 
-
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	private function hasStringKeys(array $data)
+	{
+		return count(array_filter(array_keys($data), 'is_string')) > 0;
 	}
 }

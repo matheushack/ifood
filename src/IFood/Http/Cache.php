@@ -25,10 +25,8 @@ class Cache
 	 */
 	public function __construct()
 	{
-		$this->memchaced = new \Memcached('ifood-project');
-
-		if (!count($this->memchaced->getServerList()))
-			$this->memchaced->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
+		$this->memcached = new \Memcache('ifood-project');
+		$this->memchaced->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
 	}
 
 	/**

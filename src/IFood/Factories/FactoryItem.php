@@ -65,6 +65,9 @@ class FactoryItem
 		if(!empty($data['description']))
 			$response->setName((string) $data['description']);
 
+		if(!empty($data['status']))
+			$response->setAvailability((string) $data['status']);
+
 		if(!empty($data['price']))
 			$response->setPrice($this->makePrice($data['price']));
 
