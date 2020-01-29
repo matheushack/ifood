@@ -112,6 +112,26 @@ class CancellationCodes
 			self::CUSTOMER_REQUESTED_CANCELLATION_ORDER => "Cliente final solicitou o cancelamento do pedido",
 		];
 
-		return in_array($code, $descriptions) ? $descriptions[$code] : "";
+		return array_key_exists($code, $descriptions) ? $descriptions[$code] : "";
+	}
+
+	public static function getAllDescription()
+	{
+		return [
+			self::ORDER_DUPLICATE => "Pedido em duplicidade",
+			self::ITEM_UNAVAILABLE => "Item indisponível",
+			self::RESTAURANT_WITHOU_MOTOBOY => "Restaurante sem motoboy",
+			self::MENU_OUTDATED => "Cardápio desatualizado",
+			self::OUT_DELIVERY_AREA => "Pedido fora da área de entrega",
+			self::PRANK_CALL => "Trote",
+			self::OUT_DELIVERY_TIME => "Fora do horário do delivery",
+			self::RESTAURANT_DIFFICULTIES => "Dificuldades do restaurante",
+			self::RISK_AREA => "Área de risco",
+			self::RESTAURANT_WILL_OPEN_LATER => "Restaurante abrirá mais tarde",
+			self::RESTAURANT_CLOSED_EARLIER => "Restaurante fechou mais cedo",
+			self::OTHER => "Outro (descrição obrigatória)",
+			self::MENU_UNAVAILABLE => "Menu não disponível",
+			self::CUSTOMER_REQUESTED_CANCELLATION_ORDER => "Cliente final solicitou o cancelamento do pedido",
+		];
 	}
 }

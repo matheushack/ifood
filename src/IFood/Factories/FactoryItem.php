@@ -63,7 +63,7 @@ class FactoryItem
 			$response->setName((string) $data['name']);
 
 		if(!empty($data['description']))
-			$response->setName((string) $data['description']);
+			$response->setDescription((string) $data['description']);
 
 		if(!empty($data['status']))
 			$response->setAvailability((string) $data['status']);
@@ -82,6 +82,7 @@ class FactoryItem
 			$return[] = [
 				'name' => 'file',
 				'contents' => $image->getBase64('jpeg', 100, true),
+				'headers'  => [ 'Content-Type' => 'multipart/form-data']
 			];
 		}
 

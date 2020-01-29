@@ -38,9 +38,6 @@ class ServiceRestaurant
 	public function available()
 	{
 		try {
-			if(!empty($reason))
-				throw new \Exception('Need to provide a reason for restaurant unavailability');
-
 			return $this->iFood->changeStatusRestaurant(Availability::ACTIVE);
 		} catch (\Exception $e){
 			return (new Response)

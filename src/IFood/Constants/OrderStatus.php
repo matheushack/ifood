@@ -76,6 +76,6 @@ class OrderStatus
 			self::CONCLUDED => "Pedido concluído",
 		];
 
-		return in_array($status, $descriptions) ? $descriptions[$status] : "";
+		return array_key_exists($status, $descriptions) ? $descriptions[$status] : "";
 	}
 }
