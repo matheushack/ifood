@@ -9,6 +9,8 @@
 namespace MatheusHack\IFood\Http;
 
 
+use MatheusHack\IFood\Entities\Cookie;
+
 /**
  * Class Cache
  * @package MatheusHack\IFood\Http
@@ -18,15 +20,23 @@ class Cache
 	/**
 	 * @var
 	 */
-	private $memcached;
+	private $cache;
 
 	/**
 	 * Cache constructor.
 	 */
 	public function __construct()
 	{
-		$this->memcached = new \Memcache('ifood-project');
-		$this->memcached->addServer(getenv('MEMCACHE_HOST'), getenv('MEMCACHE_PORT'));
+		switch (getenv('IFOOD_CACHE_TYPE')){
+			default:
+				$this->cache = new Cookie();
+				break;
+			case 'memcache':
+				$this->cache = new \Memcache('ifood-project');
+				$this->cache->addServer(getenv('IFOOD_MEMCACHE_HOST'), getenv('IFOOD_MEMCACHE_PORT'));
+				break;
+		}
+
 	}
 
 	/**
@@ -38,7 +48,7 @@ class Cache
 	public function set($key, $value = '', $time = 60)
 	{
 		try {
-			return $this->memcached->add($key, $value, $time);
+			return $this->cache->add($key, $value, $time);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -52,7 +62,7 @@ class Cache
 	public function rememberForever($key, $value = '')
 	{
 		try {
-			return $this->memcached->add($key, $value, 0);
+			return $this->cache->add($key, $value, 0);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -65,7 +75,7 @@ class Cache
 	public function get($key)
 	{
 		try {
-			return $this->memcached->get($key);
+			return $this->cache->get($key);
 		} catch (\Exception $e){
 			return false;
 		}
@@ -77,7 +87,7 @@ class Cache
 	public function clear()
 	{
 		try {
-			return $this->memcached->flush();
+			return $this->cache->flush();
 		} catch (\Exception $e){
 			return false;
 		}
