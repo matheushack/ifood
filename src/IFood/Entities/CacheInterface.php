@@ -32,5 +32,5 @@ interface CacheInterface
 	/**
 	 * @return mixed
 	 */
-	public function flush();
+	public function flush($key = '');
 }

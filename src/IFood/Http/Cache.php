@@ -84,9 +84,12 @@ class Cache
 	/**
 	 * @return bool
 	 */
-	public function clear()
+	public function clear($key = '')
 	{
 		try {
+			if(!($this->cache instanceof \Memcache))
+				return $this->cache->flush($key);
+
 			return $this->cache->flush();
 		} catch (\Exception $e){
 			return false;

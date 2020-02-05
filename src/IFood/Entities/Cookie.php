@@ -41,10 +41,14 @@ class Cookie implements CacheInterface
 	/**
 	 * @return bool
 	 */
-	public function flush()
+	public function flush($key = '')
 	{
 		// TODO: Implement clear() method.
 		$past = time() - 3600;
+
+		if(!empty($key))
+			return setcookie($key, $_COOKIE[$key], $past);
+
 		foreach ($_COOKIE as $key => $value )
 			setcookie($key, $value, $past);
 

@@ -95,7 +95,7 @@ class Authentication
 					throw new \Exception('An error occurred, try again later');
 					break;
 				case 401:
-					$this->cache->clear();
+					$this->cache->clear('token_authorize_ifood');
 					return $this->execute($endpoint, $method, $parameters, $isMultipart);
 					break;
 			}
@@ -109,6 +109,11 @@ class Authentication
 				->setSuccess(true)
 				->setData($iFoodResponse);
 		} catch (RequestException $e) {
+			if($e->getCode() == 401){
+				$this->cache->clear('token_authorize_ifood');
+				return $this->execute($endpoint, $method, $parameters, $isMultipart);
+			}
+
 			return (new Response)
 				->setSuccess(false)
 				->setMessage($e->getMessage());
