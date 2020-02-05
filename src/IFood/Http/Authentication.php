@@ -82,7 +82,6 @@ class Authentication
 						->setSuccess(true);
 					break;
 				case 400:
-				case 401:
 				case 403:
 					throw new \Exception($iFoodResponse->message);
 					break;
@@ -94,6 +93,10 @@ class Authentication
 					break;
 				case 500:
 					throw new \Exception('An error occurred, try again later');
+					break;
+				case 401:
+					$this->cache->clear();
+					return $this->execute($endpoint, $method, $parameters, $isMultipart);
 					break;
 			}
 
