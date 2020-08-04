@@ -8,6 +8,8 @@
 
 namespace MatheusHack\IFood\Http;
 
+use MatheusHack\IFood\Constants\OrderStatus;
+
 /**
  * Class IFood
  * @package MatheusHack\IFood\Http
@@ -178,7 +180,7 @@ class IFood extends Authentication
 	 */
 	public function events()
 	{
-		return $this->execute(sprintf("%s/events:polling", getenv('IFOOD_VERSION')), "GET");
+		return $this->execute(sprintf("%s/events:polling", getenv('IFOOD_VERSION_V3')), "GET");
 	}
 
 	/**
@@ -196,19 +198,24 @@ class IFood extends Authentication
 	 */
 	public function detailOrder($reference)
 	{
-		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_VERSION'), $reference), "GET");
+		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_VERSION_V3'), $reference), "GET");
 	}
 
 	/**
 	 * @param $reference
 	 * @param $status
 	 * @param bool $isCancel
+	 * @param bool $isVersion2
 	 * @param array $data
 	 * @return \MatheusHack\IFood\Entities\Response
 	 */
-	public function updateStatusOrder($reference, $status, $isCancel = false, $data = [])
+	public function updateStatusOrder($reference, $status, $isCancel = false, $isVersion2 = false, $data = [])
 	{
 		$version = getenv('IFOOD_VERSION');
+
+		if ($isVersion2) {
+            $version = 'v2.0';
+        }
 
 		if($isCancel)
 			$version = 'v3.0';
@@ -216,4 +223,12 @@ class IFood extends Authentication
 		return $this->execute(sprintf("%s/orders/%s/statuses/%s", $version, $reference, $status), "POST", $data);
 	}
 
+    /**
+     * @param $orderId
+     * @return \MatheusHack\IFood\Entities\Response
+     */
+    public function tracking($orderId)
+    {
+        return $this->execute(sprintf("%s/orders/%s/tracking", getenv('IFOOD_VERSION_V2'), $orderId), "GET");
+    }
 }

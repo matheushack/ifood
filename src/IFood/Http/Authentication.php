@@ -183,13 +183,18 @@ class Authentication
 			];
 		}
 
-		return [
-			"headers" => [
-				'Content-Type' => 'application/json',
-				'Authorization' => sprintf("Bearer %s", $token)
-			],
-			'body' => json_encode($parameters)
-		];
+		$content = [
+            "headers" => [
+                'Content-Type' => 'application/json',
+                'Authorization' => sprintf("Bearer %s", $token)
+            ],
+        ];
+
+		if (!empty($parameters)) {
+		    $content['body'] = json_encode($parameters);
+        }
+
+		return $content;
 	}
 
 	/**

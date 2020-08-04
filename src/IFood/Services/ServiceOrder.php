@@ -60,7 +60,6 @@ class ServiceOrder
 					'id' => $uuid
 				];
 			}
-
 			return $this->iFood->acknowledgment($orders);
 		} catch (\Exception $e){
 			return (new Response)
@@ -77,12 +76,13 @@ class ServiceOrder
 	{
 		try {
 			$reference = $data['reference'];
-			$isCancelOrder = $data['status'] == OrderStatus::CANCELLED ? true : false;
+            $isVersion2 = $data['status'] == OrderStatus::READY_TO_DELIVER;
+			$isCancelOrder = $data['status'] == OrderStatus::CANCELLED;
 			$status = (new FactoryOrder)->makeStatus($data['status']);
 			unset($data['status']);
 			unset($data['reference']);
 
-			return $this->iFood->updateStatusOrder($reference, $status, $isCancelOrder, $data);
+			return $this->iFood->updateStatusOrder($reference, $status, $isCancelOrder, $isVersion2, $data);
 		} catch (\Exception $e){
 			return (new Response)
 				->setSuccess(false)
@@ -104,4 +104,21 @@ class ServiceOrder
 				->setMessage($e->getMessage());
 		}
 	}
+
+    /**
+     * @param array $data
+     * @return Response
+     */
+    public function tracking(array $data)
+    {
+        try {
+            $orderId = $data['order-uuid'];
+
+            return $this->iFood->tracking($orderId);
+        } catch (\Exception $e){
+            return (new Response)
+                ->setSuccess(false)
+                ->setMessage($e->getMessage());
+        }
+    }
 }
