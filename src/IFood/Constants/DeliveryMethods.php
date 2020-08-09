@@ -56,6 +56,6 @@ class DeliveryMethods
             ]
         ];
 
-        return array_key_exists($type, $locations) ? $locations[$type][$location] : "";
+        return array_key_exists($type, $locations) && array_key_exists($location, $locations[$type]) ? $locations[$type][$location] : "";
     }
 }

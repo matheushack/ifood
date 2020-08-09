@@ -180,7 +180,7 @@ class IFood extends Authentication
 	 */
 	public function events()
 	{
-		return $this->execute(sprintf("%s/events:polling", getenv('IFOOD_EVENT_VERSION')), "GET");
+		return $this->execute(sprintf("%s/events:polling", getenv('IFOOD_ORDER_VERSION')), "GET");
 	}
 
 	/**
@@ -198,7 +198,7 @@ class IFood extends Authentication
 	 */
 	public function detailOrder($reference)
 	{
-		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_EVENT_VERSION'), $reference), "GET");
+		return $this->execute(sprintf("%s/orders/%s", getenv('IFOOD_ORDER_VERSION'), $reference), "GET");
 	}
 
 	/**

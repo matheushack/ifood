@@ -19,6 +19,11 @@ class CancellationCodes
 {
 	use ConstantsTrait;
 
+  /**
+   *
+   */
+  const SYSTEM_PROBLEMS = 501;
+
 	/**
 	 *
 	 */
@@ -32,7 +37,7 @@ class CancellationCodes
 	/**
 	 *
 	 */
-	const RESTAURANT_WITHOU_MOTOBOY = 5504;
+	const RESTAURANT_WITHOUT_MOTOBOY = 504;
 
 	/**
 	 *
@@ -84,10 +89,20 @@ class CancellationCodes
 	 */
 	const MENU_UNAVAILABLE = 803;
 
+  /**
+   *
+   */
+  const CUSTOMER_REGISTER_INCOMPLETE = 804;
+
 	/**
 	 *
 	 */
 	const CUSTOMER_REQUESTED_CANCELLATION_ORDER = 817;
+
+  /**
+   *
+   */
+  const DELIVERY_FEE_INCONSISTENT = 818;
 
 	/**
 	 * @param $code
@@ -96,9 +111,10 @@ class CancellationCodes
 	public static function description($code)
 	{
 		$descriptions = [
+			self::SYSTEM_PROBLEMS => "Problemas de sistema",
 			self::ORDER_DUPLICATE => "Pedido em duplicidade",
 			self::ITEM_UNAVAILABLE => "Item indisponível",
-			self::RESTAURANT_WITHOU_MOTOBOY => "Restaurante sem motoboy",
+			self::RESTAURANT_WITHOUT_MOTOBOY => "Restaurante sem motoboy",
 			self::MENU_OUTDATED => "Cardápio desatualizado",
 			self::OUT_DELIVERY_AREA => "Pedido fora da área de entrega",
 			self::PRANK_CALL => "Trote",
@@ -109,7 +125,9 @@ class CancellationCodes
 			self::RESTAURANT_CLOSED_EARLIER => "Restaurante fechou mais cedo",
 			self::OTHER => "Outro (descrição obrigatória)",
 			self::MENU_UNAVAILABLE => "Menu não disponível",
+			self::CUSTOMER_REGISTER_INCOMPLETE => "Cadastro do cliente incompleto - Cliente não atende",
 			self::CUSTOMER_REQUESTED_CANCELLATION_ORDER => "Cliente final solicitou o cancelamento do pedido",
+			self::DELIVERY_FEE_INCONSISTENT => "Taxa de entrega inconsistente",
 		];
 
 		return array_key_exists($code, $descriptions) ? $descriptions[$code] : "";
@@ -118,9 +136,10 @@ class CancellationCodes
 	public static function getAllDescription()
 	{
 		return [
-			self::ORDER_DUPLICATE => "Pedido em duplicidade",
+      self::SYSTEM_PROBLEMS => "Problemas de sistema",
+      self::ORDER_DUPLICATE => "Pedido em duplicidade",
 			self::ITEM_UNAVAILABLE => "Item indisponível",
-			self::RESTAURANT_WITHOU_MOTOBOY => "Restaurante sem motoboy",
+			self::RESTAURANT_WITHOUT_MOTOBOY => "Restaurante sem motoboy",
 			self::MENU_OUTDATED => "Cardápio desatualizado",
 			self::OUT_DELIVERY_AREA => "Pedido fora da área de entrega",
 			self::PRANK_CALL => "Trote",
@@ -131,7 +150,9 @@ class CancellationCodes
 			self::RESTAURANT_CLOSED_EARLIER => "Restaurante fechou mais cedo",
 			self::OTHER => "Outro (descrição obrigatória)",
 			self::MENU_UNAVAILABLE => "Menu não disponível",
-			self::CUSTOMER_REQUESTED_CANCELLATION_ORDER => "Cliente final solicitou o cancelamento do pedido",
+      self::CUSTOMER_REGISTER_INCOMPLETE => "Cadastro do cliente incompleto - Cliente não atende",
+      self::CUSTOMER_REQUESTED_CANCELLATION_ORDER => "Cliente final solicitou o cancelamento do pedido",
+      self::DELIVERY_FEE_INCONSISTENT => "Taxa de entrega inconsistente",
 		];
 	}
 }
