@@ -76,13 +76,13 @@ class ServiceOrder
 	{
 		try {
 			$reference = $data['reference'];
-            $isVersion2 = $data['status'] == OrderStatus::READY_TO_DELIVER;
+      $isReadyToDelivery = $data['status'] == OrderStatus::READY_TO_DELIVER;
 			$isCancelOrder = $data['status'] == OrderStatus::CANCELLED;
 			$status = (new FactoryOrder)->makeStatus($data['status']);
 			unset($data['status']);
 			unset($data['reference']);
 
-			return $this->iFood->updateStatusOrder($reference, $status, $isCancelOrder, $isVersion2, $data);
+			return $this->iFood->updateStatusOrder($reference, $status, $isCancelOrder, $isReadyToDelivery, $data);
 		} catch (\Exception $e){
 			return (new Response)
 				->setSuccess(false)
