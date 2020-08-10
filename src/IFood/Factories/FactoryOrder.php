@@ -32,6 +32,8 @@ class FactoryOrder
 				return "integration";
 			case OrderStatus::CONFIRMED:
 				return "confirmation";
+            case OrderStatus::READY_TO_DELIVER:
+                return "readyToDeliver";
 			case OrderStatus::DISPATCHED:
 				return "dispatch";
 			case OrderStatus::REJECTED:

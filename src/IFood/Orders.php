@@ -97,4 +97,19 @@ class Orders
 
 		return $this->service->detail($data);
 	}
+
+    /**
+     * @param array $data
+     * @return Entities\Response
+     */
+    public function tracking(array $data)
+    {
+        $validator = new Validator($data);
+        $validator->rule('required', ['order-uuid']);
+
+        if(!$validator->validate())
+            return (new ValidateResponse)->error($validator);
+
+        return $this->service->tracking($data);
+    }
 }
